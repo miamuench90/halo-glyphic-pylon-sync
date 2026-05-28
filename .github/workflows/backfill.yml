@@ -1,0 +1,19 @@
+name: Backfill All Glyphic Calls to Pylon
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Run backfill
+        env:
+          GLYPHIC_API_KEY: ${{ secrets.GLYPHIC_API_KEY }}
+          PYLON_API_KEY: ${{ secrets.PYLON_API_KEY }}
+        run: python backfill.py
